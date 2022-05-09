@@ -35,6 +35,9 @@ const userSchema = mongoose.Schema({
     unique: true,
     required: true,
   },
+  successful_profile: {
+    type: "Boolean",
+  },
 });
 
 const connection = mongoose.createConnection(
