@@ -7,14 +7,14 @@ router.post("/group", async (req, res) => {
   res.json(group);
 });
 
-app.get("/group/:id", async (req, res) => {
+app.get("/group/:uid", async (req, res) => {
   const { uid } = req.params;
   const group = await group.findById(uid);
   res.json(group);
 });
 
 
-app.delete('/group/:id', (req, res) => {
+app.delete('/group/:uid', (req, res) => {
   const { uid } = req.params;
   res.json({ uid });
 });
