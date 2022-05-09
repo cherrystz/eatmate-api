@@ -16,74 +16,18 @@ router.post("/check_user", async (req, res) => {
   }
 });
 
-router.post("/delete_user", async (req, res) => {
-  const doc = await user.find();
-  const data = doc.map((admin) => {
-    return admin.uid;
-  });
-  if (!data.includes(req.body.adminUid)) {
-    return res.json({ result: "failed", msg: "Access Denied!" });
-  }
-  await admin
-    .auth()
-    .deleteUser(req.body.uid)
-    .then(() => {
-      return res.json({
-        result: "success",
-        msg: "Successfully deleted user!",
-      });
-    })
-    .catch((error) => {
-      return res.json({ result: "failed", msg: error.message });
-    });
-});
+router.post("/update_user", async (req, res) => {
+  const filter = { uid: req.body.uid };
+  const update = {
+    birthday: req.body.birthday,
+    name: req.body.name,
+    gender: req.body.gender,
+  };
 
-router.post("/enable_user", async (req, res) => {
-  const doc = await user.find();
-  const data = doc.map((admin) => {
-    return admin.uid;
+  let doc = await user.findOneAndUpdate(filter, update, {
+    new: true,
   });
-  if (!data.includes(req.body.adminUid)) {
-    return res.json({ result: "failed", msg: "Access Denied!" });
-  }
-  await admin
-    .auth()
-    .updateUser(req.body.uid, {
-      disabled: false,
-    })
-    .then(() => {
-      return res.json({
-        result: "success",
-        msg: "Successfully enabled user!",
-      });
-    })
-    .catch((error) => {
-      return res.json({ result: "failed", msg: error.message });
-    });
-});
-
-router.post("/disable_user", async (req, res) => {
-  const doc = await user.find();
-  const data = doc.map((admin) => {
-    return admin.uid;
-  });
-  if (!data.includes(req.body.adminUid)) {
-    return res.json({ result: "failed", msg: "Access Denied!" });
-  }
-  await admin
-    .auth()
-    .updateUser(req.body.uid, {
-      disabled: true,
-    })
-    .then(() => {
-      return res.json({
-        result: "success",
-        msg: "Successfully disabled user!",
-      });
-    })
-    .catch((error) => {
-      return res.json({ result: "failed", msg: error.message });
-    });
+  return res.json({ result: "updated", data: doc });
 });
 
 module.exports = router;

@@ -12,8 +12,8 @@ const userSchema = mongoose.Schema({
   gender: {
     type: "String",
   },
-  age: {
-    type: "Number",
+  birthday: {
+    type: "String",
   },
   description_profile: {
     type: "String",
