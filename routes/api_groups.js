@@ -5,7 +5,7 @@ const group = require("./schemas/group_schema");
 const user = require("./schemas/user_schema");
 
 router.post("/search", async (req, res) => {
-  const doc = await group.find({ groupName: req.body.name });
+  const doc = await group.find();
   return res.json({ result: "created", data: doc });
 });
 
@@ -25,6 +25,12 @@ router.get("/home_group_rec", async (req, res) => {
 router.get("/group/:id", async (req, res) => {
   const { id } = req.params;
   const doc = await group.findOne({ _id: id });
+  return res.json({ result: "success", data: doc });
+});
+
+router.get("/category/:cat", async (req, res) => {
+  const { cat } = req.params;
+  const doc = await group.find({ groupType: cat });
   return res.json({ result: "success", data: doc });
 });
 
