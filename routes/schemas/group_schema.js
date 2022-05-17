@@ -1,13 +1,9 @@
+const mongoose = require("mongoose");
 const groupSchema = mongoose.Schema({
-  groupID: {
-    type: "String",
-  },
   groupName: {
     type: "String",
   },
-  groupMember: {
-    type: "Number",
-  },
+  groupMember: [String],
   groupLimit: {
     type: "Number",
   },
@@ -16,9 +12,7 @@ const groupSchema = mongoose.Schema({
   },
   groupOwner: {
     type: "String",
-  },
-  description_profile: {
-    type: "String",
+    required: true,
   },
   groupTime: {
     type: "String",
@@ -32,9 +26,13 @@ const groupSchema = mongoose.Schema({
   groupStatus: {
     type: "Boolean",
   },
-  uid: {
+  groupType: {
     type: "String",
-    unique: true,
-    required: true,
   },
 });
+
+const connection = mongoose.createConnection(
+  `${process.env.DB_URI_PATH}eatmate-db`
+);
+const group = connection.model("groups", groupSchema);
+module.exports = group;

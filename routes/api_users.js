@@ -16,12 +16,25 @@ router.post("/check_user", async (req, res) => {
   }
 });
 
+router.get("/user/:uid", async (req, res) => {
+  const doc = await user.findOne({
+    uid: req.params.uid,
+  });
+  if (doc) {
+    return res.json({ result: "success", data: doc.name });
+  } else {
+    return res.json({ result: "failed", data: "" });
+  }
+});
+
 router.post("/update_user", async (req, res) => {
   const filter = { uid: req.body.uid };
   const update = {
     birthday: req.body.birthday,
     name: req.body.name,
     gender: req.body.gender,
+    profile_picture: req.body.profile_picture,
+    successful_profile: true,
   };
 
   let doc = await user.findOneAndUpdate(filter, update, {

@@ -38,6 +38,7 @@ const userSchema = mongoose.Schema({
   successful_profile: {
     type: "Boolean",
   },
+  group_id: [String],
 });
 
 const connection = mongoose.createConnection(
