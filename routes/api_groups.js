@@ -4,6 +4,11 @@ const mongoose = require("mongoose");
 const group = require("./schemas/group_schema");
 const user = require("./schemas/user_schema");
 
+router.post("/search", async (req, res) => {
+  const doc = await group.find({ groupName: req.body.name });
+  return res.json({ result: "created", data: doc });
+});
+
 router.post("/create_group", async (req, res) => {
   const doc = await group.create(req.body);
   const owner = await user.findOne({ uid: req.body.groupOwner });
